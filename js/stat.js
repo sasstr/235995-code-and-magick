@@ -16,6 +16,7 @@ var BAR_GAP = 50;
 var GAP = 10;
 var TEXT_LINE_X = 140;
 var TEXT_LINE_Y = 40;
+var TEXT_SPACE = 100;
 
 window.renderStatistics = function (ctx, names, times) {
   // Функция которая возращает лучший результат игры
@@ -31,7 +32,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   // Функция возращает координату Y гистограммы игрока
   var getBarStartCoordinateY = function (heightDifference) {
-    return (100 + heightDifference);
+    return (TEXT_SPACE + heightDifference);
   };
 
   // Поучаем цвет гистограмы других игроков или своей.
