@@ -54,7 +54,7 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.font = FONT;
       ctx.textBaseline = 'hanging';
       ctx.strokeText(Math.round(times[i]), nextCoordinateX, (nextCoordinateY - GAP * 2));
-      ctx.strokeText(names[i], nextCoordinateX, 260);
+      ctx.strokeText(names[i], nextCoordinateX, (CLOUD_HEIGHT - GAP));
 
       nextCoordinateX += BAR_GAP + BAR_GRAPH_WIDTH;
       heightDifference = BAR_GRAPH_HEIGHT;
@@ -70,7 +70,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.font = FONT;
   ctx.textBaseline = 'hanging';
   ctx.strokeText(FIRST_LINE_TEXT, TEXT_LINE_X, TEXT_LINE_Y);
-  ctx.strokeText(SECOND_LINE_TEXT, TEXT_LINE_X, TEXT_LINE_Y + 20);
+  ctx.strokeText(SECOND_LINE_TEXT, TEXT_LINE_X, (TEXT_LINE_Y + GAP * 2));
 
   drawPlayerBar(playerHeightBar);
 };
