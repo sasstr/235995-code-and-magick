@@ -38,12 +38,10 @@ window.renderStatistics = function (ctx, names, times) {
   var drawPlayerBars = function () {
 
     var nextCoordinateX = 155;
-    var heightDifference = BAR_GRAPH_HEIGHT;
 
     for (var i = 0; i < times.length; i++) {
       var playerHeightBar = Math.round((times[i] / maxResult) * BAR_GRAPH_HEIGHT);
-      heightDifference -= playerHeightBar;
-      var nextCoordinateY = getBarStartCoordinateY(heightDifference);
+      var nextCoordinateY = getBarStartCoordinateY(BAR_GRAPH_HEIGHT - playerHeightBar);
 
       ctx.fillStyle = getPlayerBarColor(names[i]);
       ctx.fillRect(nextCoordinateX, nextCoordinateY, BAR_GRAPH_WIDTH, playerHeightBar);
@@ -54,7 +52,6 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.strokeText(names[i], nextCoordinateX, (CLOUD_HEIGHT - GAP));
 
       nextCoordinateX += BAR_GAP + BAR_GRAPH_WIDTH;
-      heightDifference = BAR_GRAPH_HEIGHT;
     }
   };
 
@@ -71,3 +68,4 @@ window.renderStatistics = function (ctx, names, times) {
 
   drawPlayerBars(times);
 };
+
