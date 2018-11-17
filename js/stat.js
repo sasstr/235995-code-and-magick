@@ -25,11 +25,6 @@ window.renderStatistics = function (ctx, names, times) {
   };
   var maxResult = getBestResult(times);
 
-  //  Функция возращает массив с высотами гистограмм игроков пропорционально их времени игры
-  var playerHeightBar = times.map(function (item) {
-    return Math.round((item / maxResult) * BAR_GRAPH_HEIGHT);
-  });
-
   // Функция возращает координату Y гистограммы игрока
   var getBarStartCoordinateY = function (heightDifference) {
     return (TEXT_SPACE + heightDifference);
@@ -40,17 +35,18 @@ window.renderStatistics = function (ctx, names, times) {
     return (name === 'Вы') ? BAR_MY_COLOR : 'hsla(235, 100%, ' + Math.random() * 100 + '% , 1)';
   };
   // Функция рисует гистограмы игроков их имена и результаты
-  var drawPlayerBar = function () {
+  var drawPlayerBars = function () {
 
     var nextCoordinateX = 155;
     var heightDifference = BAR_GRAPH_HEIGHT;
 
-    for (var i = 0; i < playerHeightBar.length; i++) {
-      heightDifference -= playerHeightBar[i];
+    for (var i = 0; i < times.length; i++) {
+      var playerHeightBar = Math.round((times[i] / maxResult) * BAR_GRAPH_HEIGHT);
+      heightDifference -= playerHeightBar;
       var nextCoordinateY = getBarStartCoordinateY(heightDifference);
 
       ctx.fillStyle = getPlayerBarColor(names[i]);
-      ctx.fillRect(nextCoordinateX, nextCoordinateY, BAR_GRAPH_WIDTH, playerHeightBar[i]);
+      ctx.fillRect(nextCoordinateX, nextCoordinateY, BAR_GRAPH_WIDTH, playerHeightBar);
 
       ctx.font = FONT;
       ctx.textBaseline = 'hanging';
@@ -73,5 +69,5 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.strokeText(FIRST_LINE_TEXT, TEXT_LINE_X, TEXT_LINE_Y);
   ctx.strokeText(SECOND_LINE_TEXT, TEXT_LINE_X, (TEXT_LINE_Y + GAP * 2));
 
-  drawPlayerBar(playerHeightBar);
+  drawPlayerBars(times);
 };
