@@ -25,23 +25,17 @@ window.renderStatistics = function (ctx, names, times) {
   };
   var maxResult = getBestResult(times);
 
-  // Функция возращает координату Y гистограммы игрока
-  var getBarStartCoordinateY = function (heightDifference) {
-    return (TEXT_SPACE + heightDifference);
-  };
-
   // Поучаем цвет гистограмы других игроков или своей.
   var getPlayerBarColor = function (name) {
     return (name === 'Вы') ? BAR_MY_COLOR : 'hsla(235, 100%, ' + Math.random() * 100 + '% , 1)';
   };
   // Функция рисует гистограмы игроков их имена и результаты
   var drawPlayerBars = function () {
-
     var nextCoordinateX = 155;
 
     for (var i = 0; i < times.length; i++) {
       var playerHeightBar = Math.round((times[i] / maxResult) * BAR_GRAPH_HEIGHT);
-      var nextCoordinateY = getBarStartCoordinateY(BAR_GRAPH_HEIGHT - playerHeightBar);
+      var nextCoordinateY = TEXT_SPACE + BAR_GRAPH_HEIGHT - playerHeightBar;
 
       ctx.fillStyle = getPlayerBarColor(names[i]);
       ctx.fillRect(nextCoordinateX, nextCoordinateY, BAR_GRAPH_WIDTH, playerHeightBar);
@@ -54,18 +48,24 @@ window.renderStatistics = function (ctx, names, times) {
       nextCoordinateX += BAR_GAP + BAR_GRAPH_WIDTH;
     }
   };
-
   ctx.fillStyle = SHADOW_COLOR;
   ctx.fillRect(CLOUD_COORDINATE_X + GAP, CLOUD_COORDINATE_Y + GAP, CLOUD_WIDTH, CLOUD_HEIGHT);
 
-  ctx.fillStyle = BACKGROUND_COLOR;
+  var grd = ctx.createRadialGradient(238, 50, 10, 238, 50, 300);
+  grd.addColorStop(0, BACKGROUND_COLOR);
+  grd.addColorStop(1, '#CAEBFE');
+  ctx.fillStyle = grd;
+
   ctx.fillRect(CLOUD_COORDINATE_X, CLOUD_COORDINATE_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
 
   ctx.font = FONT;
   ctx.textBaseline = 'hanging';
   ctx.strokeText(FIRST_LINE_TEXT, TEXT_LINE_X, TEXT_LINE_Y);
   ctx.strokeText(SECOND_LINE_TEXT, TEXT_LINE_X, (TEXT_LINE_Y + GAP * 2));
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  ctx.shadowBlur = 3;
+  ctx.shadowOffsetX = 3;
+  ctx.shadowOffsetY = 3;
 
   drawPlayerBars(times);
 };
-
