@@ -49,24 +49,31 @@ window.renderStatistics = function (ctx, names, times) {
       nextCoordinateX += BAR_GAP + BAR_GRAPH_WIDTH;
     }
   };
-  ctx.fillStyle = SHADOW_COLOR;
-  ctx.fillRect(CLOUD_COORDINATE_X + GAP, CLOUD_COORDINATE_Y + GAP, CLOUD_WIDTH, CLOUD_HEIGHT);
 
-  var grd = ctx.createRadialGradient(238, 50, 10, 238, 50, 300);
-  grd.addColorStop(0, BACKGROUND_COLOR);
-  grd.addColorStop(1, GRADIENT_COLOR);
-  ctx.fillStyle = grd;
+  var drawCloud = function (x, y, width, height, fillStyle) {
+    ctx.fillStyle = fillStyle;
+    ctx.fillRect(x, y, width, height);
+  };
 
-  ctx.fillRect(CLOUD_COORDINATE_X, CLOUD_COORDINATE_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  var baseLine = 'hanging';
+  var drawText = function (font, baseline, text, x, y) {
+    ctx.font = font;
+    ctx.textBaseline = baseline;
+    ctx.strokeText(text, x, y);
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
+  };
 
-  ctx.font = FONT;
-  ctx.textBaseline = 'hanging';
-  ctx.strokeText(FIRST_LINE_TEXT, TEXT_LINE_X, TEXT_LINE_Y);
-  ctx.strokeText(SECOND_LINE_TEXT, TEXT_LINE_X, (TEXT_LINE_Y + GAP * 2));
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-  ctx.shadowBlur = 3;
-  ctx.shadowOffsetX = 3;
-  ctx.shadowOffsetY = 3;
+  var gradient = ctx.createRadialGradient(238, 50, 10, 238, 50, 300);
+  gradient.addColorStop(0, BACKGROUND_COLOR);
+  gradient.addColorStop(1, GRADIENT_COLOR);
+  var textSecondLineY = TEXT_LINE_Y + GAP * 2;
 
+  drawCloud(CLOUD_COORDINATE_X + GAP, CLOUD_COORDINATE_Y + GAP, CLOUD_WIDTH, CLOUD_HEIGHT, SHADOW_COLOR);
+  drawCloud(CLOUD_COORDINATE_X, CLOUD_COORDINATE_Y, CLOUD_WIDTH, CLOUD_HEIGHT, gradient);
+  drawText(FONT, baseLine, FIRST_LINE_TEXT, TEXT_LINE_X, TEXT_LINE_Y);
+  drawText(FONT, baseLine, SECOND_LINE_TEXT, TEXT_LINE_X, textSecondLineY);
   drawPlayerBars(times);
 };
