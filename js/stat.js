@@ -17,6 +17,7 @@ var GAP = 10;
 var TEXT_LINE_X = 140;
 var TEXT_LINE_Y = 40;
 var TEXT_SPACE = 100;
+var GRADIENT_COLOR = '#CAEBFE';
 
 window.renderStatistics = function (ctx, names, times) {
   // Функция которая возращает лучший результат игры
@@ -53,7 +54,7 @@ window.renderStatistics = function (ctx, names, times) {
 
   var grd = ctx.createRadialGradient(238, 50, 10, 238, 50, 300);
   grd.addColorStop(0, BACKGROUND_COLOR);
-  grd.addColorStop(1, '#CAEBFE');
+  grd.addColorStop(1, GRADIENT_COLOR);
   ctx.fillStyle = grd;
 
   ctx.fillRect(CLOUD_COORDINATE_X, CLOUD_COORDINATE_Y, CLOUD_WIDTH, CLOUD_HEIGHT);
