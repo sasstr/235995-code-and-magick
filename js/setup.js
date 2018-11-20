@@ -8,7 +8,7 @@ var eyesColor = ['black', 'red', 'blue', 'yellow', 'green'];
 var blockSetup = document.querySelector('.setup');
 
 blockSetup.classList.remove('hidden');
-// функция возразает случайное качество из массива
+// функция возращает случайное качество из массива
 var randomQuality = function (array) {
   return array[parseInt(Math.random() * array.length, 10)];
 };
@@ -18,7 +18,7 @@ var getPersonName = function (names, surnames) {
   var randomSurname = randomQuality(surnames);
   return (Math.random() > 0.5) ? randomName + ' ' + randomSurname : randomSurname + ' ' + randomName;
 };
-
+// Функция создает объектт с магами
 var createWizards = function () {
   var wizards = [];
 
