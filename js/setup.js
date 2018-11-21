@@ -8,11 +8,8 @@ var EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 var blockSetup = document.querySelector('.setup');
 
 blockSetup.classList.remove('hidden');
-/* // Случайный номер элемента массива
-var getRandomNumberOfArray = function (array) {
-  return parseInt(Math.random() * array.length, 10);
-}; */
 
+// Случайный номер элемента массива
 var getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min - 1)) + min;
 };
@@ -45,7 +42,7 @@ var createWizards = function (numberOfPerson) {
   return wizards;
 };
 
-var wizards = createWizards(NUMBER_OF_PERSON);
+
 var setupSimilarList = document.querySelector('.setup-similar-list');
 var similarWizardTamplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
@@ -67,8 +64,7 @@ var createSimilarList = function (wizards) {
   }
   return fragment;
 };
-
-
+var wizards = createWizards(NUMBER_OF_PERSON);
 createSimilarList(wizards);
 setupSimilarList.appendChild(createSimilarList(wizards));
 document.querySelector('.setup-similar').classList.remove('hidden');
