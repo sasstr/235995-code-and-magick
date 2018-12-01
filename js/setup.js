@@ -96,7 +96,7 @@ var fireballClickHandler = function () {
   setupFireballWrap.querySelector('input[name=fireball-color]').value = fireballColorValue;
 };
 
-var setupOpenClickHandler = function () {
+var setupOpenPopupClickHandler = function () {
   openPopup();
 };
 
@@ -114,9 +114,9 @@ var popupEscPressHandler = function (evt) {
   }
 };
 
-setupOpen.addEventListener('click', setupOpenClickHandler);
+setupOpen.addEventListener('click', setupOpenPopupClickHandler);
 
-var closePopupEnterPressHandler = function (evt) {
+var popupCloseEnterPressHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
@@ -158,7 +158,7 @@ var closePopup = function () {
   wizardEyesColor.removeEventListener('click', wizardEyesClickHandler);
   fireballColor.removeEventListener('click', fireballClickHandler);
   setupClose.removeEventListener('click', setupCloseClickHandler);
-  setupClose.removeEventListener('keydown', closePopupEnterPressHandler);
+  setupClose.removeEventListener('keydown', popupCloseEnterPressHandler);
   userNameInput.removeEventListener('invalid', inputValidityHandler);
   userNameInput.removeEventListener('input', inputLengthValidityHandler);
 };
@@ -170,7 +170,7 @@ var openPopup = function () {
   wizardEyesColor.addEventListener('click', wizardEyesClickHandler);
   fireballColor.addEventListener('click', fireballClickHandler);
   setupClose.addEventListener('click', setupCloseClickHandler);
-  setupClose.addEventListener('keydown', closePopupEnterPressHandler);
+  setupClose.addEventListener('keydown', popupCloseEnterPressHandler);
   userNameInput.addEventListener('invalid', inputValidityHandler);
   userNameInput.addEventListener('input', inputLengthValidityHandler);
 };
