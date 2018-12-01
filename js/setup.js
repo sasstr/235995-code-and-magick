@@ -71,20 +71,29 @@ document.querySelector('.setup-similar').classList.remove('hidden');
 
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = blockSetup.querySelector('.setup-close');
-var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
+var userNameInput = blockSetup.querySelector('.setup-user-name');
+var wizardCoatColor = document.querySelector('.setup-wizard .wizard-coat');
+var wizardEyesColor = document.querySelector('.setup-wizard .wizard-eyes');
 var fireballColor = document.querySelector('.setup-fireball-wrap');
+var setupFireballWrap = document.querySelector('.setup-fireball-wrap');
+var setupWizardAppearance = document.querySelector('.setup-wizard-appearance');
 
 var wizardCoatClickHandler = function () {
-  wizardCoat.style.fill = getRandomItemOfArray(COAT_COLORS);
+  var wizardCoatValue = getRandomItemOfArray(COAT_COLORS);
+  wizardCoatColor.style.fill = wizardCoatValue;
+  setupWizardAppearance.querySelector('input[name=coat-color]').value = wizardCoatValue;
 };
 
 var wizardEyesClickHandler = function () {
-  wizardEyes.style.fill = getRandomItemOfArray(EYES_COLOR);
+  var wizardEyesValue = getRandomItemOfArray(EYES_COLOR);
+  wizardEyesColor.style.fill = wizardEyesValue;
+  setupWizardAppearance.querySelector('input[name=eyes-color]').value = wizardEyesValue;
 };
 
 var fireballClickHandler = function () {
-  fireballColor.style.backgroundColor = getRandomItemOfArray(FIREBALL_COLORS);
+  var fireballColorValue = getRandomItemOfArray(FIREBALL_COLORS);
+  fireballColor.style.backgroundColor = fireballColorValue;
+  setupFireballWrap.querySelector('input[name=fireball-color]').value = fireballColorValue;
 };
 
 var setupOpenClickHandler = function () {
@@ -97,13 +106,17 @@ var setupCloseClickHandler = function () {
 
 var popupEscPressHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
+    if (evt.target === userNameInput) {
+      evt.stopPropagation();
+    } else {
+      closePopup();
+    }
   }
 };
 
 setupOpen.addEventListener('click', setupOpenClickHandler);
 
-var ClosePopupEnterPressHandler = function (evt) {
+var closePopupEnterPressHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
@@ -117,29 +130,7 @@ var openPopupEnterPressHandler = function (evt) {
 
 setupOpen.addEventListener('keydown', openPopupEnterPressHandler);
 
-var closePopup = function () {
-  blockSetup.classList.add('hidden');
-  document.removeEventListener('keydown', popupEscPressHandler);
-  wizardCoat.removeEventListener('click', wizardCoatClickHandler);
-  wizardEyes.removeEventListener('click', wizardEyesClickHandler);
-  fireballColor.removeEventListener('click', fireballClickHandler);
-  setupClose.removeEventListener('click', setupCloseClickHandler);
-  setupClose.removeEventListener('keydown', ClosePopupEnterPressHandler);
-};
-
-var openPopup = function () {
-  blockSetup.classList.remove('hidden');
-  document.addEventListener('keydown', popupEscPressHandler);
-  wizardCoat.addEventListener('click', wizardCoatClickHandler);
-  wizardEyes.addEventListener('click', wizardEyesClickHandler);
-  fireballColor.addEventListener('click', fireballClickHandler);
-  setupClose.addEventListener('click', setupCloseClickHandler);
-  setupClose.addEventListener('keydown', ClosePopupEnterPressHandler);
-};
-
-var userNameInput = blockSetup.querySelector('.setup-user-name');
-
-userNameInput.addEventListener('invalid', function () {
+var inputValidityHandler = function () {
   if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
   } else if (userNameInput.validity.tooLong) {
@@ -149,13 +140,37 @@ userNameInput.addEventListener('invalid', function () {
   } else {
     userNameInput.setCustomValidity('');
   }
-});
+};
 
-userNameInput.addEventListener('input', function (evt) {
+var inputLengthValidityHandler = function (evt) {
   var target = evt.target;
   if (target.value.length < 2) {
     target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
   } else {
     target.setCustomValidity('');
   }
-});
+};
+
+var closePopup = function () {
+  blockSetup.classList.add('hidden');
+  document.removeEventListener('keydown', popupEscPressHandler);
+  wizardCoatColor.removeEventListener('click', wizardCoatClickHandler);
+  wizardEyesColor.removeEventListener('click', wizardEyesClickHandler);
+  fireballColor.removeEventListener('click', fireballClickHandler);
+  setupClose.removeEventListener('click', setupCloseClickHandler);
+  setupClose.removeEventListener('keydown', closePopupEnterPressHandler);
+  userNameInput.removeEventListener('invalid', inputValidityHandler);
+  userNameInput.removeEventListener('input', inputLengthValidityHandler);
+};
+
+var openPopup = function () {
+  blockSetup.classList.remove('hidden');
+  document.addEventListener('keydown', popupEscPressHandler);
+  wizardCoatColor.addEventListener('click', wizardCoatClickHandler);
+  wizardEyesColor.addEventListener('click', wizardEyesClickHandler);
+  fireballColor.addEventListener('click', fireballClickHandler);
+  setupClose.addEventListener('click', setupCloseClickHandler);
+  setupClose.addEventListener('keydown', closePopupEnterPressHandler);
+  userNameInput.addEventListener('invalid', inputValidityHandler);
+  userNameInput.addEventListener('input', inputLengthValidityHandler);
+};
