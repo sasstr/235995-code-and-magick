@@ -12,53 +12,60 @@
 */
 (function () {
   var setupDialogElement = document.querySelector('.setup');
-  var dialogHandler = setupDialogElement.querySelector('.setup-user-pic');
-  var upload = setupDialogElement.querySelector('.upload');
+  var dialogHandler = document.querySelector('.setup-user-pic');
+  var upload = document.querySelector('.upload');
 
-  upload.addEventListener('mousedown', function (evt) {
+  var dialogHandlerMousedownHandler = function (evt) {
     evt.preventDefault();
-    console.log('Hello world!');
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+    /* clickedElement = evt.target;
+    clickedElement = evt.currentTarget;
+    console.log(clickedElement); */
 
-    var dragged = false;
-
-    var MouseMoveHandler = function (moveEvt) {
-      moveEvt.preventDefault();
-      dragged = true;
-      console.log('Hello');
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+    /* var startPopupCoordinate = {
+      x: setupDialogElement.offsetLeft,
+      y: setupDialogElement.offsetTop
+    }; */
+    if (evt.currentTarget.className === 'setup-user-pic') {
+      var startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
+      var dragged = false;
 
-      setupDialogElement.style.top = (setupDialogElement.offsetTop - shift.y) + 'px';
-      setupDialogElement.style.left = (setupDialogElement.offsetLeft - shift.x) + 'px';
-    };
-
-    var MouseUpHandler = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', MouseMoveHandler, true);
-      document.removeEventListener('mouseup', MouseUpHandler, true);
-
-      if (dragged) {
-        var сlickPreventDefaultHandler = function (evtPrevent) {
-          evtPrevent.preventDefault();
-          dialogHandler.removeEventListener('click', сlickPreventDefaultHandler, true);
+      var MouseMoveHandler = function (moveEvt) {
+        moveEvt.preventDefault();
+        dragged = true;
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
         };
-        dialogHandler.addEventListener('click', сlickPreventDefaultHandler, true);
-      }
-    };
 
-    document.addEventListener('mousemove', MouseMoveHandler, true);
-    document.addEventListener('mouseup', MouseUpHandler, true);
-  });
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+
+        setupDialogElement.style.top = (setupDialogElement.offsetTop - shift.y) + 'px';
+        setupDialogElement.style.left = (setupDialogElement.offsetLeft - shift.x) + 'px';
+      };
+
+      var MouseUpHandler = function (upEvt) {
+        upEvt.preventDefault();
+        document.removeEventListener('mousemove', MouseMoveHandler);
+        document.removeEventListener('mouseup', MouseUpHandler);
+
+        if (dragged) {
+          var сlickPreventDefaultHandler = function (evtPrevent) {
+            evtPrevent.preventDefault();
+            upload.removeEventListener('click', сlickPreventDefaultHandler);
+          };
+          upload.addEventListener('click', сlickPreventDefaultHandler);
+        }
+      };
+      document.addEventListener('mousemove', MouseMoveHandler);
+      document.addEventListener('mouseup', MouseUpHandler);
+    }
+  };
+  dialogHandler.addEventListener('mousedown', dialogHandlerMousedownHandler, true);
 })();
