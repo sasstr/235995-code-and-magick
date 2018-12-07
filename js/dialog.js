@@ -52,8 +52,8 @@
 
       var MouseUpHandler = function (upEvt) {
         upEvt.preventDefault();
-        document.removeEventListener('mousemove', MouseMoveHandler);
-        document.removeEventListener('mouseup', MouseUpHandler);
+        dialogHandler.removeEventListener('mousemove', MouseMoveHandler);
+        dialogHandler.removeEventListener('mouseup', MouseUpHandler);
 
         if (dragged) {
           var сlickPreventDefaultHandler = function (evtPrevent) {
@@ -63,9 +63,10 @@
           upload.addEventListener('click', сlickPreventDefaultHandler);
         }
       };
-      document.addEventListener('mousemove', MouseMoveHandler);
-      document.addEventListener('mouseup', MouseUpHandler);
+      dialogHandler.addEventListener('mousemove', MouseMoveHandler);
+      dialogHandler.addEventListener('mouseup', MouseUpHandler);
     }
   };
+  upload.addEventListener('mousedown', dialogHandlerMousedownHandler, true);
   dialogHandler.addEventListener('mousedown', dialogHandlerMousedownHandler, true);
 })();
